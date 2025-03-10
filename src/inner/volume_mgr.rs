@@ -637,7 +637,7 @@ where
                         file.update_length(0);
                         match &data.open_volumes[volume_idx].volume_type {
                             VolumeType::Fat(fat) => {
-                                file.entry.mtime = self.time_source.get_timestamp();
+                                file.entry.mtime = self.time_source.get_timestamp().await;
                                 fat.write_entry_to_disk(&mut data.block_cache, &file.entry).await?;
                             }
                         };
@@ -911,7 +911,7 @@ where
             // Entry update deferred to file close, for performance.
         }
         data.open_files[file_idx].entry.attributes.set_archive(true);
-        data.open_files[file_idx].entry.mtime = self.time_source.get_timestamp();
+        data.open_files[file_idx].entry.mtime = self.time_source.get_timestamp().await;
         Ok(())
     }
 

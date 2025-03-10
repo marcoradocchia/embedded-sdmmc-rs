@@ -437,7 +437,7 @@ impl FatVolume {
                             let dir_entry = OnDiskDirEntry::new(dir_entry_bytes);
                             // 0x00 or 0xE5 represents a free entry
                             if !dir_entry.is_valid() {
-                                let ctime = time_source.get_timestamp();
+                                let ctime = time_source.get_timestamp().await;
                                 let entry = DirEntry::new(
                                     name,
                                     attributes,
@@ -500,7 +500,7 @@ impl FatVolume {
                             let dir_entry = OnDiskDirEntry::new(dir_entry_bytes);
                             // 0x00 or 0xE5 represents a free entry
                             if !dir_entry.is_valid() {
-                                let ctime = time_source.get_timestamp();
+                                let ctime = time_source.get_timestamp().await;
                                 let entry = DirEntry::new(
                                     name,
                                     attributes,
@@ -1281,7 +1281,7 @@ impl FatVolume {
         }
         let new_dir_start_block = self.cluster_to_block(new_dir_entry_in_parent.cluster);
         debug!("Made new dir entry {:?}", new_dir_entry_in_parent);
-        let now = time_source.get_timestamp();
+        let now = time_source.get_timestamp().await;
         let fat_type = self.get_fat_type();
         // A blank block
         let block = block_cache.blank_mut(new_dir_start_block);

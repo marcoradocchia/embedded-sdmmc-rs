@@ -1,7 +1,10 @@
+use super::super::bisync;
+
+#[bisync]
 /// Things that impl this can tell you the current time.
 pub trait TimeSource {
     /// Returns the current time
-    fn get_timestamp(&self) -> Timestamp;
+    async fn get_timestamp(&self) -> Timestamp;
 }
 
 /// A Gregorian Calendar date/time, in the local time zone.
